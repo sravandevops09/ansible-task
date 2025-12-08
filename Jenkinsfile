@@ -8,7 +8,7 @@ pipeline {
             steps {
                 deleteDir()
                 sh 'echo cloning repo'
-                sh 'git clone https://github.com/rarvez77/ansible-task.git' 
+                sh 'git clone https://github.com/saivarun0509/ansible-task.git' 
             }
         }
         
