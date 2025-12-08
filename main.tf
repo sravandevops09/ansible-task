@@ -26,7 +26,7 @@ resource "aws_instance" "frontend" { #amazon-playbook.yaml NGINX
   ami                    = "ami-0d176f79571d18a8f"
   instance_type          = "t3.micro"
   key_name               = "mumbai"
-  vpc_security_group_ids = ["sg-00318350619b1ae2b"]
+  vpc_security_group_ids = ["sg-07677724d1e159194"]
   tags = {
     Name = "c8.local"
   }
