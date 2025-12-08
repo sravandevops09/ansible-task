@@ -17,8 +17,9 @@ pipeline {
                     dir("${WORKSPACE}") {
                     sh 'terraform init'
                     sh 'terraform validate'
-                    sh 'terraform plan'
-                    sh 'terraform apply'
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'access-key','secret-key']]) {
+                        sh 'terraform plan'
+                        sh 'terraform apply'
                     }
                 }
             }
