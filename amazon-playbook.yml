@@ -2,11 +2,11 @@
 - hosts: frontend
   become: true
   tasks:
-    - name: Disable SELinux
+    - name: Disable SELinux (effective after reboot)
       selinux:
         state: disabled
 
-    - name: Update DNF repositories
+    - name: Update all packages
       dnf:
         name: "*"
         state: latest
@@ -16,20 +16,34 @@
         name: nginx
         state: present
 
-    - name: Start Nginx service
-      service:
-        name: nginx
-        state: started
-        enabled: true  # Start Nginx service on system boot
-        
-    - name: Configure Nginx proxy
+    - name: Ensure firewall allows HTTP
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes
+
+    - name: Copy Nginx configuration
       template:
         src: nginx.conf.j2
         dest: /etc/nginx/nginx.conf
       notify:
-        - restart nginx
+        - check nginx config
+
+    - name: Start and enable Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: true
 
   handlers:
+    - name: check nginx config
+      command: nginx -t
+      register: nginx_test
+      failed_when: nginx_test.rc != 0
+      notify:
+        - restart nginx
+
     - name: restart nginx
       systemd:
         name: nginx
