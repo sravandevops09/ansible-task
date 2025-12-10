@@ -1,11 +1,11 @@
 ---
 - hosts: frontend
   become: true
+
   vars:
     nginx_conf_src: nginx.conf.j2
     nginx_conf_dest: /etc/nginx/nginx.conf
-    backend_ip: "{{ hostvars[inventory_hostname].backend_ip }}"
-
+    backend_ip: "{{ hostvars['backend'].ansible_host }}"   # ← Correct backend IP variable
 
   tasks:
     - name: Disable SELinux (effective after reboot)
