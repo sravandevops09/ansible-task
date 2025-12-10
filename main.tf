@@ -1,16 +1,16 @@
 provider "aws" {
-  region = "ap-south-1"
+  region = "us-east-1"
 }
 
 # ---------------------------
 # Backend - Ubuntu
 # ---------------------------
 resource "aws_instance" "backend" {
-  ami                    = "ami-02b8269d5e85954ef"  
+  ami                    = "ami-0ecb62995f68bb549"  
   instance_type          = "t3.micro"
-  key_name               = "mumbai"
-  vpc_security_group_ids = ["sg-00318350619b1ae2b"]
-  subnet_id              = "subnet-0d0eb30adae1d3565"
+  key_name               = "ansible-key"
+  vpc_security_group_ids = ["sg-0bfa56e31afa0516d"]
+  subnet_id              = "subnet-036627dba318b207f"
 
   tags = {
     Name = "u21.local"
@@ -26,11 +26,11 @@ resource "aws_instance" "backend" {
 # Frontend - Amazon Linux
 # ---------------------------
 resource "aws_instance" "frontend" {
-  ami                    = "ami-0d176f79571d18a8f"   # Amazon Linux
+  ami                    = "ami-068c0051b15cdb816"   # Amazon Linux
   instance_type          = "t3.micro"
-  key_name               = "mumbai"
-  vpc_security_group_ids = ["sg-00318350619b1ae2b"]
-  subnet_id              = "subnet-024f6df68d098d6ac"
+  key_name               = "ansible-key"
+  vpc_security_group_ids = ["sg-0bfa56e31afa0516d"]
+  subnet_id              = "subnet-036627dba318b207f"
 
   tags = {
     Name = "c8.local"
