@@ -6,7 +6,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 sh 'echo cloning repo'
-                git branch: 'main', url: 'https://github.com/saivarun0509/ansible-task.git'
+                git branch: 'main', url: 'https://github.com/sravandevops09/ansible-task.git'
             }
         }
 
@@ -17,7 +17,7 @@ pipeline {
                         sh 'terraform init'
                         sh 'terraform validate'
 
-                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-creds']]) {
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_key']]) {
                             sh 'terraform plan'
                             sh 'terraform apply -auto-approve'
                         }
@@ -32,7 +32,7 @@ pipeline {
 
                     // --- AMAZON LINUX (frontend) ---
                     ansiblePlaybook(
-                        credentialsId: 'ec2-key',
+                        credentialsId: 'ansible-key',
                         disableHostKeyChecking: true,
                         installation: 'ansible',
                         inventory: 'inventory.yaml',
@@ -45,7 +45,7 @@ pipeline {
                     // --- UBUNTU (backend, only if needed) ---
                     ansiblePlaybook(
                         become: true,
-                        credentialsId: 'ec2-key',
+                        credentialsId: 'ansible-key',
                         disableHostKeyChecking: true,
                         installation: 'ansible',
                         inventory: 'inventory.yaml',
