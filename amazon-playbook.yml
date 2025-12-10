@@ -5,7 +5,7 @@
   vars:
     nginx_conf_src: nginx.conf.j2
     nginx_conf_dest: /etc/nginx/nginx.conf
-    backend_ip: "{{ hostvars['backend'].ansible_host }}"   # ← Correct backend IP variable
+    backend_private_ip: "{{ hostvars['backend'].backend_private_ip }}"
 
   tasks:
     - name: Disable SELinux (effective after reboot)
